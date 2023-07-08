@@ -30,7 +30,7 @@ public class Test : Activity
     {
         // Just a random call to one of the methods of Microsoft.Data.SqlClient
         SqlConnection.ClearAllPools();
-        
+
         _logger.LogInformation("Execute from activity 1");
     }
 }
@@ -40,5 +40,13 @@ public class Test2 : Activity
     {
         Console.WriteLine("Execute from activity 2");
         context.Stuff.Add(DateTime.Now.Ticks.ToString(), "this is a test");
+        
+        // Comment this line to break early unloading. Once a type from the extension assembly creeps into
+        // the host, we can no longer unload the ALC safely.
+        // context.Stuff.Add(DateTime.Now.Ticks.ToString() + "-person", new Person());
     }
+}
+
+public class Person
+{
 }

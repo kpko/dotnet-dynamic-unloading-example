@@ -2,7 +2,7 @@
 
 using UnloadingTests;
 
-var path = Path.GetFullPath("../../../../Lib/bin/Release/net7.0/publish/Lib.dll");
+var path = Path.GetFullPath("../../../../Lib/bin/Release/net6.0/publish/Lib.dll");
 var instance = AssemblyExtensionInstance.LoadFromAssembly(path);
 
 Console.WriteLine(instance.IsLoaded);
@@ -23,8 +23,7 @@ for (var i = 0; instance.IsLoaded && (i < 10); i++)
 
 instance.CallTestMethod("Test2", ctx);
 
-Console.ReadKey();
-
+// Unload the extension instance, this also unloads the service provider of the extension
 instance.Unload();
 
 // Try clean up the ref for at least 10 times
