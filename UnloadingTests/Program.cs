@@ -1,13 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.Loader;
-
 using Microsoft.Extensions.DependencyInjection;
-
 using Shared;
-
 using UnloadingTests;
-
 
 var path = Path.GetFullPath("../../../../Lib/bin/Release/net7.0/publish/Lib.dll");
 var instance = AssemblyExtensionInstance.LoadFromAssembly(path);
@@ -73,19 +69,6 @@ internal class AssemblyExtensionInstance : IDisposable
         var alc = new ExtensionAssemblyLoadContext("test", assemblyPath);
         var assembly = alc.LoadFromAssemblyPath(assemblyPath);
         instance._ctxRef = new WeakReference(alc, trackResurrection: true);
-
-        // var args = new object[1] { new string[] { "Hello" } };
-        // _ = a.EntryPoint?.Invoke(null, args);
-
-        // var types = assembly.ExportedTypes
-        //     .Where(t => t.IsAssignableTo(typeof(IActivity)))
-        //     .ToList();
-        // foreach (var type in types)
-        // {
-        //     var obj = (IActivity)Activator.CreateInstance(type)!;
-        //     instance._activites.Add(type.Name, obj);
-        // }
-
         instance._ctx = alc;
 
         var setupType = assembly.GetExportedTypes().SingleOrDefault(t => t.IsAssignableTo(typeof(IExtensionSetup)));
@@ -118,13 +101,6 @@ internal class AssemblyExtensionInstance : IDisposable
 
     public void Unload()
     {
-        // foreach (var (_, activity) in _activites)
-        // {
-        //     if (activity is IDisposable disposable)
-        //     {
-        //         disposable.Dispose();
-        //     }
-        // }
         _activites.Clear();
         _activites = null!;
 
