@@ -10,6 +10,7 @@ namespace UnloadingTests;
 
 public class AssemblyExtensionInstance : IDisposable
 {
+    public WeakReference Ref => _ctxRef;
     public bool IsLoaded => _ctxRef.IsAlive;
     private AssemblyLoadContext _ctx = null!;
     private WeakReference _ctxRef = null!;

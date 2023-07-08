@@ -40,13 +40,12 @@ public class Test2 : Activity
     {
         Console.WriteLine("Execute from activity 2");
         context.Stuff.Add(DateTime.Now.Ticks.ToString(), "this is a test");
-        
-        // Comment this line to break early unloading. Once a type from the extension assembly creeps into
-        // the host, we can no longer unload the ALC safely.
-        // context.Stuff.Add(DateTime.Now.Ticks.ToString() + "-person", new Person());
+
+        // Add instance of a custom type to the dict, this doesn't break unloading 
+        // as long as the context object is cleaned up later
+        context.Stuff.Add(DateTime.Now.Ticks.ToString() + "-person", new Person());
     }
 }
-
 public class Person
 {
 }
