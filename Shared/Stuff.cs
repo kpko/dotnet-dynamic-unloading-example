@@ -6,6 +6,7 @@ public interface IActivity : IDisposable
 {
     void Execute(Context context);
 }
+
 public abstract class Activity : IActivity
 {
     public virtual void Dispose()
@@ -14,11 +15,19 @@ public abstract class Activity : IActivity
 
     public abstract void Execute(Context context);
 }
+
 public class Context
 {
     public Dictionary<string, object?> Stuff { get; set; } = new();
 }
+
 public interface IExtensionSetup
 {
     IServiceProvider GetProvider();
+}
+
+public interface IExtensionService
+{
+    Task Start(CancellationToken cancellationToken);
+    Task Stop(CancellationToken cancellationToken);
 }

@@ -1,12 +1,9 @@
 ﻿using System.Reflection;
 using System.Runtime.Loader;
 
-using Microsoft.Extensions.DependencyModel;
-using Microsoft.Extensions.DependencyModel.Resolution;
-
 namespace UnloadingTests;
 
-class ExtensionAssemblyLoadContext : AssemblyLoadContext
+public class ExtensionAssemblyLoadContext : AssemblyLoadContext
 {
     private readonly AssemblyDependencyResolver _resolver;
 
@@ -17,7 +14,8 @@ class ExtensionAssemblyLoadContext : AssemblyLoadContext
 
     protected override Assembly? Load(AssemblyName name)
     {
-        if (AssemblyLoadContext.Default.TryLoadFromAssemblyName(name, out var a))
+        // Try to load from default context first. This is important for shared assemblies.
+        if (Default.TryLoadFromAssemblyName(name, out var a))
         {
             return a;
         }
@@ -29,21 +27,5 @@ class ExtensionAssemblyLoadContext : AssemblyLoadContext
         }
 
         return null;
-    }
-}
-public static class AssemblyLoadContextExtensions
-{
-    public static bool TryLoadFromAssemblyName(this AssemblyLoadContext ctx, AssemblyName name, out Assembly? assembly)
-    {
-        try
-        {
-            assembly = AssemblyLoadContext.Default.LoadFromAssemblyName(name);
-            return true;
-        }
-        catch (Exception)
-        {
-            assembly = null;
-            return false;
-        }
     }
 }

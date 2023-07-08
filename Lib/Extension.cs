@@ -28,7 +28,9 @@ public class Test : Activity
 
     public override void Execute(Context context)
     {
+        // Just a random call to one of the methods of Microsoft.Data.SqlClient
         SqlConnection.ClearAllPools();
+        
         _logger.LogInformation("Execute from activity 1");
     }
 }
@@ -37,6 +39,6 @@ public class Test2 : Activity
     public override void Execute(Context context)
     {
         Console.WriteLine("Execute from activity 2");
-        context.Stuff.Add(DateTime.Now.Ticks.ToString(), "asldkjasldkjalkjd");
+        context.Stuff.Add(DateTime.Now.Ticks.ToString(), "this is a test");
     }
 }
